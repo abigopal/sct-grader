@@ -1,0 +1,10 @@
+.DS_Store
+testing
+settings.py
+sct_grader/settings.py
+*.pyc
+*~
+[#]*[#]
+manage.py
+sct_grader/wsgi.py
+grader/tests

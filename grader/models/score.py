@@ -11,6 +11,9 @@ class Entry(models.Model):
     def __str__(self):
         return '<Entry %s %s>' % (self.contest, self.user)
 
+    class Meta:
+        app_label = 'grader'
+
 class ProblemScore(models.Model):
     name = models.CharField(max_length=30)
     points = models.IntegerField()
@@ -20,6 +23,9 @@ class ProblemScore(models.Model):
     @python_2_unicode_compatible
     def __str__(self):
         return '<ProblemScore %s>' % self.name
+
+    class Meta:
+        app_label = 'grader'
 
 class SubtaskScore(models.Model):
     name = models.CharField(max_length=30)
@@ -31,6 +37,8 @@ class SubtaskScore(models.Model):
     def __str__(self):
         return '<SubtaskScore %s>' % self.name
 
+    class Meta:
+        app_label = 'grader'
 '''
 This portion of the code may seem really redundant. 
 I chose not to use GenericForeignKeys, because 
@@ -51,6 +59,9 @@ class TeamEntry(models.Model):
     def __str__(self):
         return '<TeamEntry %s %s>' % (self.contest, self.team)
 
+    class Meta:
+        app_label = 'grader'
+
 class TeamProblemScore(models.Model):
     name = models.CharField(max_length=30)
     points = models.IntegerField()
@@ -60,6 +71,9 @@ class TeamProblemScore(models.Model):
     @python_2_unicode_compatible
     def __str__(self):
         return '<TeamProblemScore %s>' % self.name
+
+    class Meta:
+        app_label = 'grader'
 
 class TeamSubtaskScore(models.Model):
     name = models.CharField(max_length=30)
@@ -71,3 +85,5 @@ class TeamSubtaskScore(models.Model):
     def __str__(self):
         return '<TeamSubtaskScore %s>' % self.name
 
+    class Meta:
+        app_label = 'grader'

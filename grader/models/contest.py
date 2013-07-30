@@ -15,6 +15,9 @@ class Problem(models.Model):
     def __str__(self):
         return '<Problem %s>' % self.name
 
+    class Meta:
+        app_label = 'grader'
+
 class TestCase(models.Model):
     inp = models.TextField()
     out = models.TextField()
@@ -24,6 +27,9 @@ class TestCase(models.Model):
     @python_2_unicode_compatible
     def __str__(self):
         return '<TestCase %s>' % self.num
+
+    class Meta:
+        app_label = 'grader'
 
 class Subtask(models.Model):
     name = models.CharField(max_length=30)
@@ -35,6 +41,9 @@ class Subtask(models.Model):
     def __str__(self):
         return '<Subtask %s>' % self.name
 
+    class Meta:
+        app_label = 'grader'
+
 class Contest(models.Model):
     name = models.CharField(max_length=30)
     prob_file = models.CharField(max_length=30)
@@ -42,10 +51,14 @@ class Contest(models.Model):
     registered = models.ManyToManyField('User', through='Entry')
     probs = models.ManyToManyField(Problem)
     complete = models.BooleanField(default=False) # Contest is over; show submissions.
-
+    start = models.DateTimeField()
+    end = models.DateTimeField()
     @python_2_unicode_compatible
     def __str__(self):
         return '<Contest %s>' % self.name
+
+    class Meta:
+        app_label = 'grader'
 '''
 Once again this code seems really redundant,
 and I the reason for writing it this way
@@ -60,12 +73,15 @@ class TeamContest(models.Model):
     name = models.CharField(max_length=30)
     prob_file = models.CharField(max_length=30)
     total_points = models.IntegerField()
-    registered = models.ManyToManyField('TeamEntry', through='Entry')
+    registered = models.ManyToManyField('Team', through='TeamEntry')
     probs = models.ManyToManyField(Problem)
     complete = models.BooleanField(default=False) # Contest is over; show submissions.
-
+    start = models.DateTimeField()
+    end = models.DateTimeField()
     @python_2_unicode_compatible
     def __str__(self):
         return '<TeamContest %s>' % self.name
 
-
+    class Meta:
+        app_label = 'grader'
+        abstract = False

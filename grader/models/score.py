@@ -3,9 +3,9 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.contenttypes.models import ContentType
 
 class Entry(models.Model):
-    user = models.ForeignKey('User')
+    user = models.ForeignKey('Member')
     contest = models.ForeignKey('Contest')
-    total_score = models.IntegerField()
+    total_score = models.IntegerField(default=0)
 
     @python_2_unicode_compatible
     def __str__(self):
@@ -15,9 +15,9 @@ class Entry(models.Model):
         app_label = 'grader'
 
 class ProblemScore(models.Model):
-    name = models.CharField(max_length=30)
-    points = models.IntegerField()
-    entry = models.ForeignKey(Entry)
+    letter = models.CharField(max_length=1)
+    points = models.IntegerField(default=0)
+    entry = models.ForeignKey(Entry, related_name='problem_score')
     last_submit = models.DateTimeField(auto_now=True)
 
     @python_2_unicode_compatible
@@ -27,11 +27,11 @@ class ProblemScore(models.Model):
     class Meta:
         app_label = 'grader'
 
-class SubtaskScore(models.Model):
-    name = models.CharField(max_length=30)
-    points = models.IntegerField()
-    complete = models.BooleanField()
-    problem = models.ForeignKey(ProblemScore)
+class SubtaskScore(models.Model): 
+    num = models.IntegerField(default=0)
+    points = models.IntegerField(default=0)
+    complete = models.BooleanField(default=False)
+    problem_score = models.ForeignKey(ProblemScore, related_name='subtask_score')
 
     @python_2_unicode_compatible
     def __str__(self):

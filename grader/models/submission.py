@@ -1,10 +1,10 @@
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
-from .user import User, Team
+from .user import Member, Team
 from .contest import Problem 
 
 class Submission(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(Member)
     prob = models.ForeignKey(Problem)
     solved = models.BooleanField(default=False)
     lang = models.CharField(max_length=10)

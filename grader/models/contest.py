@@ -1,19 +1,21 @@
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from .score import Entry
-from .user import User, Team
+from .user import Member, Team
 # Create your models here.
 
 class Problem(models.Model):
-    name = models.CharField(max_length=30)
+    title = models.CharField(max_length=30)
+    letter = models.CharField(max_length=1)
+    slug = models.CharField(max_length=30)
     points = models.IntegerField()
     evaluator = models.CharField(max_length=30)
     flags = models.CharField(max_length=30)
     lang = models.CharField(max_length=100) # JSON encoded array. more efficient than joining.
-    
+
     @python_2_unicode_compatible
     def __str__(self):
-        return '<Problem %s>' % self.name
+        return '<Problem %s>' % self.title
 
     class Meta:
         app_label = 'grader'
@@ -22,7 +24,7 @@ class TestCase(models.Model):
     inp = models.TextField()
     out = models.TextField()
     num = models.IntegerField()
-    prob = models.ForeignKey(Problem)
+    problem = models.ForeignKey(Problem, related_name='test_cases')
 
     @python_2_unicode_compatible
     def __str__(self):
@@ -32,10 +34,10 @@ class TestCase(models.Model):
         app_label = 'grader'
 
 class Subtask(models.Model):
-    name = models.CharField(max_length=30)
+    num = models.IntegerField(default=0)
     points = models.IntegerField()
     test_cases = models.CommaSeparatedIntegerField(max_length=100)
-    prob = models.ForeignKey(Problem)
+    problem = models.ForeignKey(Problem, related_name='subtasks')
 
     @python_2_unicode_compatible
     def __str__(self):
@@ -46,13 +48,15 @@ class Subtask(models.Model):
 
 class Contest(models.Model):
     name = models.CharField(max_length=30)
-    prob_file = models.CharField(max_length=30)
+    slug = models.CharField(max_length=30)
+    problem_dir = models.CharField(max_length=30)
     total_points = models.IntegerField()
-    registered = models.ManyToManyField('User', through='Entry')
-    probs = models.ManyToManyField(Problem)
+    registered = models.ManyToManyField('Member', through='Entry')
+    problems = models.ManyToManyField(Problem)
     complete = models.BooleanField(default=False) # Contest is over; show submissions.
     start = models.DateTimeField()
     end = models.DateTimeField()
+    active = models.BooleanField(default=False)
     @python_2_unicode_compatible
     def __str__(self):
         return '<Contest %s>' % self.name
@@ -71,10 +75,11 @@ and abstract a lot of this out.
 
 class TeamContest(models.Model):
     name = models.CharField(max_length=30)
+    slug = models.CharField(max_length=30)
     prob_file = models.CharField(max_length=30)
     total_points = models.IntegerField()
     registered = models.ManyToManyField('Team', through='TeamEntry')
-    probs = models.ManyToManyField(Problem)
+    problems = models.ManyToManyField(Problem)
     complete = models.BooleanField(default=False) # Contest is over; show submissions.
     start = models.DateTimeField()
     end = models.DateTimeField()

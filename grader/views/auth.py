@@ -26,7 +26,7 @@ class Register(View):
         password = form.cleaned_data['password']
         email = form.cleaned_data['email']
         tj_username = form.cleaned_data['tj_username']
-
+        
         user = User()
         user.is_active = True #!!!: CHANGE THIS
         user.first_name = first_name

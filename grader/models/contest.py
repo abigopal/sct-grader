@@ -41,7 +41,7 @@ class Subtask(models.Model):
 
     @python_2_unicode_compatible
     def __str__(self):
-        return '<Subtask %s>' % self.name
+        return '<Subtask %s %s>' % (self.problem, self.num)
 
     class Meta:
         app_label = 'grader'

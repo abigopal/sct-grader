@@ -22,7 +22,7 @@ class ProblemScore(models.Model):
 
     @python_2_unicode_compatible
     def __str__(self):
-        return '<ProblemScore %s>' % self.name
+        return '<ProblemScore %s>' % self.letter
 
     class Meta:
         app_label = 'grader'
@@ -35,7 +35,7 @@ class SubtaskScore(models.Model):
 
     @python_2_unicode_compatible
     def __str__(self):
-        return '<SubtaskScore %s>' % self.name
+        return '<SubtaskScore %s>' % self.num
 
     class Meta:
         app_label = 'grader'

@@ -1,3 +1,5 @@
+<h1>Contest: {{ contest.name }}</h1>
 {% for problem in problems %}
-<p>{{ problem.name }}</p>
+<p>{{ problem.letter }}</p>
+<a href="/grader/contest/{{ contest.slug }}/problem/{{ problem.slug }}">{{ problem.title }}</a>
 {% endfor %}

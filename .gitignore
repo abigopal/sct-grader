@@ -8,3 +8,4 @@ sct_grader/settings.py
 manage.py
 sct_grader/wsgi.py
 grader/tests
+grader/migrations

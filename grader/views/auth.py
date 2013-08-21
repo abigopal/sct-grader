@@ -11,9 +11,9 @@ from grader.models import Member
 import random
 import string 
 
-class Register(View):
+class RegisterView(View):
     form = RegistrationForm
-    template = '../templates/register.html'
+    template = '../templates/register.djhtml'
     def post(self, request):
         if request.user.is_authenticated():
             return HttpResponseRedirect(reverse('dashboard', args=[]))
@@ -61,9 +61,9 @@ class Register(View):
         selection = string.ascii_uppercase + string.digits
         return ''.join(random.choice(selection) for x in range(length))
 
-class Login(View):
+class LoginView(View):
     form = LoginForm
-    template = '../templates/login.html'
+    template = '../templates/login.djhtml'
     def post(self, request):
         if request.user.is_authenticated():
             return HttpResponseRedirect(reverse('dashboard', args=[]))
@@ -89,9 +89,9 @@ class Login(View):
         form = self.form()
         return render(request, self.template, {'form':form})
 
-class Logout(View):
+class LogoutView(View):
     form = LoginForm
-    template = '../templates/login.html'
+    template = '../templates/login.djhtml'
     def post(self, request):
         form = self.form()
         logout(request)

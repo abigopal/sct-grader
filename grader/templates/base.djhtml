@@ -1,0 +1,17 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="{% static  "/static/bootstrap/css/bootstrap.min.css" %}" />
+    <link rel="stylesheet" href="{% static  "/static/css/base.css" %}" />
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script type="text/javascript" src="{% static "/static/bootstrap/js/bootstrap.min.js" %}"></script>
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    {% block topbar %}
+    {% endblock %}
+    {% block content %}
+    {% endblock %}
+  </body>
+</html>

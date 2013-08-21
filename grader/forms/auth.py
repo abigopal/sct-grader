@@ -8,7 +8,7 @@ class RegistrationForm(forms.Form):
     last_name = forms.CharField(max_length=30)
     username = forms.CharField(max_length=30)
     email = forms.EmailField()
-    tj_username = forms.CharField(max_length=11, required=False)
+    tj_username = forms.CharField(max_length=11, required=False, label="*TJ username")
     password = forms.CharField(max_length=30, widget=forms.PasswordInput())
     confirm_password = forms.CharField(max_length=30, widget=forms.PasswordInput())
 
@@ -66,15 +66,16 @@ class RegistrationForm(forms.Form):
         return data #NB: EmailField uses a "moderately complex" regexp to take care of the trickiness.
 
     def clean(self):
-        data = self.cleaned_data.get('password', '')
+        cleaned_data = super(RegistrationForm, self).clean()
+        data = cleaned_data.get('password', '')
         if not data:
             raise forms.ValidationError('Missing password.')
-        data2 = self.cleaned_data.get('confirm_password', '')
+        data2 = cleaned_data.get('confirm_password', '')
         if not data2:
             raise forms.ValidationError('Missing password confirmation.')
         if data2 != data:
             raise forms.ValidationError('Passwords don\'t match.')
-        return self.cleaned_data
+        return cleaned_data
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=30)

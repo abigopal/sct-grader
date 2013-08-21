@@ -1,0 +1,5 @@
+{% extends "logged_in_base.djhtml" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+  <!-- <p>{{ username }}</p> -->
+{% endblock %}

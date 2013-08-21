@@ -1,0 +1,20 @@
+{% extends "logged_in_base.djhtml" %}
+{% block title %}Contest Gateway{% endblock %}
+{% block content %}
+  <div class="contest-gateway">
+    {% for contest in contests %}
+      <div class="well well-small">
+        <h3><a href="/grader/contest/{{ contest.slug }}">{{ contest.name }}</a></h3>
+        <p>Start: {{ contest.start }}</p>
+        <p>End: {{ contest.end }}</p>
+        {% if contest.is_over %}
+          <span class="label label-important">Over</span>
+        {% elif contest.has_started %}
+          <span class="label label-success">Running</span>
+        {% else %}
+          <span class="label label-warning">Hasn't Started</span>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

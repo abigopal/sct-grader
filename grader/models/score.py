@@ -3,13 +3,14 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.contenttypes.models import ContentType
 
 class Entry(models.Model):
-    user = models.ForeignKey('Member')
-    contest = models.ForeignKey('Contest')
+    member = models.ForeignKey('Member', related_name='entries')
+    contest = models.ForeignKey('Contest', related_name='entries')
     total_score = models.IntegerField(default=0)
+    last_submit = models.DateTimeField(auto_now=True)
 
     @python_2_unicode_compatible
     def __str__(self):
-        return '<Entry %s %s>' % (self.contest, self.user)
+        return '<Entry %s %s>' % (self.contest, self.member)
 
     class Meta:
         app_label = 'grader'
@@ -17,8 +18,7 @@ class Entry(models.Model):
 class ProblemScore(models.Model):
     letter = models.CharField(max_length=1)
     points = models.IntegerField(default=0)
-    entry = models.ForeignKey(Entry, related_name='problem_score')
-    last_submit = models.DateTimeField(auto_now=True)
+    entry = models.ForeignKey(Entry, related_name='problem_scores')
 
     @python_2_unicode_compatible
     def __str__(self):
@@ -26,12 +26,13 @@ class ProblemScore(models.Model):
 
     class Meta:
         app_label = 'grader'
+        ordering = ('letter',)
 
 class SubtaskScore(models.Model): 
     num = models.IntegerField(default=0)
     points = models.IntegerField(default=0)
     complete = models.BooleanField(default=False)
-    problem_score = models.ForeignKey(ProblemScore, related_name='subtask_score')
+    problem_score = models.ForeignKey(ProblemScore, related_name='subtask_scores')
 
     @python_2_unicode_compatible
     def __str__(self):
@@ -39,6 +40,7 @@ class SubtaskScore(models.Model):
 
     class Meta:
         app_label = 'grader'
+        ordering = ('num',)
 '''
 This portion of the code may seem really redundant. 
 I chose not to use GenericForeignKeys, because 

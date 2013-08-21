@@ -9,3 +9,4 @@ manage.py
 sct_grader/wsgi.py
 grader/tests
 grader/migrations
+grader/contests

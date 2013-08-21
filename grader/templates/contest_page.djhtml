@@ -1,0 +1,49 @@
+{% extends "logged_in_base.djhtml" %}
+{% block title %}{{ contest.name }}{% endblock %}
+{% block content %}
+  <div class="tabbable tabs-right">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#contest" data-toggle="tab">Contest</a></li>
+      {% for p in problems %}
+        <li><a href="#{{ p.0 }}" data-toggle="tab">{{ p.0 }}</a></li>
+      {% endfor %}
+      <li><a href="#submit" data-toggle="tab" id="submit-tab">Submit</a></li>
+      <li><a href="#scoreboard" data-toggle="tab" id="scoreboard-tab">Scoreboard</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane active" id="contest">
+        {{ contest_text | safe }}
+      </div>
+      {% for p in problems %}
+      <div class="tab-pane" id="{{ p.0 }}">
+        {{ p.1 | safe }}
+      </div>        
+      {% endfor %}
+      <div class="tab-pane" id="submit">
+      </div>
+      <div class="tab-pane" id="scoreboard">
+      </div>
+    </div>
+  </div>
+  {% comment %}
+  {% for problem in problems %}
+    <p>{{ problem.letter }}</p>
+    <a href="/grader/contest/{{ contest.slug }}/problem/{{ problem.letter }}">{{ problem.title }}</a>
+  {% endfor %}
+  {% endcomment %}
+  <script>
+   $(function(){
+     var baseURL = 'http://localhost:8000/grader/';
+     $('#submit-tab').bind('show', function(e){
+       $('#submit').load(baseURL + 'contest/{{ contest.slug }}/submit', function(){
+         $('#submit-tab').tab();
+       });
+     });
+     $('#scoreboard-tab').bind('show', function(e){
+       $('#scoreboard').load(baseURL + 'contest/{{ contest.slug }}/scoreboard', function(){
+         $('#scoreboard-tab').tab();
+       });
+     });
+   });
+  </script>
+{% endblock %}

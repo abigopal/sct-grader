@@ -2,20 +2,22 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.utils.timezone import now
 from django.views.generic.base import View
 from django.core.urlresolvers import reverse
 
 from grader.forms.auth import RegistrationForm, LoginForm
 from grader.models import Contest
 
-from datetime import datetime
-class ContestGateway(View):
-    template = '../templates/gateway.html'
+class ContestGatewayView(View):
+    template = '../templates/gateway.djhtml'
     
     @method_decorator(login_required)
     def get(self, request):
-        now = datetime.now()
-        qs = Contest.objects.filter(active=True, end__gte=now, start__lte=now)
+        qs = Contest.objects.filter(active=True) #!!!: Trippy
         contests = list(qs)
-        return render(request, self.template, {'contests':contests})
+        user = request.user.member
+        first_name = request.user.first_name
+        return render(request, self.template, {'contests':contests,
+                                               'first_name': first_name,})
 

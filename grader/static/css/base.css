@@ -1,0 +1,71 @@
+body {
+    padding: 1em;
+}
+.contest-gateway {
+
+}
+
+.contest-gateway p, h3 {
+    margin-botton: 0em;
+    margin-top: 0px;
+    padding: 1px;
+}
+
+
+.login-text {
+    text-align: right;
+}
+
+.login-text p {
+    padding: 0;
+    margin-bottom: 0;
+    margin-right: 1em;
+}
+
+.login {
+    width: 100%;
+} 
+
+.login form {
+    margin: 0 auto;
+    margin-top: 13em;
+    width: 20em;
+}
+
+.login #warning {
+    width: 15.7em;
+    height: 1em;
+    margin-bottom: 2em;
+    vertical-align: center;
+}
+
+.login label {
+
+}
+.login #register {
+    margin: auto;
+    width: 20em;
+}
+
+.register {
+
+}
+
+.register form {
+    margin: auto;
+    margin-top: 7em;
+    width: 20em;
+}
+
+.register #warning {
+    width: 15.7em;
+    height: 1em;
+    margin-bottom: 2em;
+    vertical-align: center;
+}
+
+.register #login {
+    margin: auto;
+    width: 20em;
+    margin-bottom: 4em;
+}

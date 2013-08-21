@@ -1,0 +1,6 @@
+{% extends "base.djhtml" %}
+{% block title %}{{ problem.title }}{% endblock %}
+{% block content %}
+<h1>{{ problem.letter }}: {{ problem.title }}</h1>
+{{ problem_text | safe }}
+{% endblock %}

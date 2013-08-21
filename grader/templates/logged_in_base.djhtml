@@ -1,0 +1,19 @@
+{% extends "base.djhtml" %}
+{% block topbar %}
+  <div class="navbar">
+    <div class="navbar-inner">
+      <a class="brand" href="">SCT Grader</a>
+      <ul class="nav">
+        <li><a href="{% url "dashboard" %}">Dashboard</a></li>
+        <li><a href="{% url "contest-gateway" %}">Contest Gateway</a></li>
+        <li><a href="">Contest Schedule</a></li>
+        <li><a href="">Contact</a></li>
+      </ul>
+      <div class="login-text">
+        <div class="navbar-text">
+          <p>Hello, {{ first_name }}! Wanna <a href="{% url "logout" %}">logout</a>?</p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

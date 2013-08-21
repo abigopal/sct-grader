@@ -1,0 +1,31 @@
+{% extends "base.djhtml" %}
+{% block title %}Registration{% endblock %}
+{% block content %}
+<div class="register">
+  <form action="/grader/register/" method="post">
+    {% csrf_token %}
+    {% if form.non_field.errors %}
+      <div id="warning">
+        <div class="alert alert-error">
+          {{ form.non_field_errors }}
+        </div>
+      </div>
+    {% endif %}
+    {% for field in form %}
+      {% if field.errors.as_text %}
+        <div id="warning">
+          <div class="alert alert-error">
+            {{ field.errors.as_text }}
+          </div>
+        </div>
+      {% endif %}
+      {{ field.label_tag }} {{ field }}
+    {% endfor %}
+    <input class="btn" type="submit" value="Submit"/>
+  </form>
+  <br />
+  <div id="login">
+    <a href="/grader/login">Already have an account?</a>
+  </div>
+</div>
+{% endblock %}

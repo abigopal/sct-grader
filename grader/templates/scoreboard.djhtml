@@ -1,0 +1,22 @@
+<table border=1>
+  <tr>
+    <td>Rank</td>
+    <td>Username</td>
+    {% for p in problems %}
+    <td>{{ p.letter }}</td>
+    {% endfor %}
+    <td>Total</td>
+    <td>Last Submitted</td>
+  </tr>
+  {% for e in entries %}
+  <tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ e.member.user.username }}</td>
+    {% for ps in e.problem_scores.all %}
+    <td>{{ ps.points }}</td>
+    {% endfor %}
+    <td>{{ e.total_score }}</td>
+    <td>{{ e.last_submit }}</td>
+  </tr>
+  {% endfor %}
+ </table>

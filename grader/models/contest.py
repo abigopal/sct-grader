@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.timezone import now
+
 from .score import Entry
 from .user import Member, Team
 # Create your models here.
@@ -7,15 +9,16 @@ from .user import Member, Team
 class Problem(models.Model):
     title = models.CharField(max_length=30)
     letter = models.CharField(max_length=1)
-    slug = models.CharField(max_length=30)
     points = models.IntegerField()
     evaluator = models.CharField(max_length=30)
     flags = models.CharField(max_length=30)
-    lang = models.CharField(max_length=100) # JSON encoded array. more efficient than joining.
 
     @python_2_unicode_compatible
     def __str__(self):
         return '<Problem %s>' % self.title
+
+    def clean(self):
+        self.letter = self.letter.capitalize()
 
     class Meta:
         app_label = 'grader'
@@ -49,20 +52,32 @@ class Subtask(models.Model):
 class Contest(models.Model):
     name = models.CharField(max_length=30)
     slug = models.CharField(max_length=30)
-    problem_dir = models.CharField(max_length=30)
     total_points = models.IntegerField()
     registered = models.ManyToManyField('Member', through='Entry')
     problems = models.ManyToManyField(Problem)
-    complete = models.BooleanField(default=False) # Contest is over; show submissions.
     start = models.DateTimeField()
     end = models.DateTimeField()
     active = models.BooleanField(default=False)
+    
+    def _is_over(self):
+        if self.end < now():
+            return True
+        return False
+
+    def _has_started(self):
+        if self.start < now():
+            return True
+        return False
+
+    is_over = property(_is_over)
+    has_started = property(_has_started)
     @python_2_unicode_compatible
     def __str__(self):
         return '<Contest %s>' % self.name
 
     class Meta:
         app_label = 'grader'
+        ordering = ('-start',)
 '''
 Once again this code seems really redundant,
 and I the reason for writing it this way

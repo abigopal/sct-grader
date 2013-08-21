@@ -8,10 +8,13 @@ from django.views.generic.base import View
 
 from grader.models import Member
 
-class Dashboard(View):
-    template = '../templates/dashboard.html'
+class DashboardView(View):
+    template = '../templates/dashboard.djhtml'
 
     @method_decorator(login_required)
     def get(self, request):
         username = request.user.username
-        return render(request, self.template, {'username':username})
+        user = request.user.member
+        first_name = request.user.first_name
+        return render(request, self.template, {'username':username,
+                                               'first_name': first_name,})

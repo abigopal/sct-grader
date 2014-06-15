@@ -1,22 +1,25 @@
-<table border=1>
-  <tr>
-    <td>Rank</td>
-    <td>Username</td>
-    {% for p in problems %}
-    <td>{{ p.letter }}</td>
+<div class="scoreboard">
+  <h1>Scoreboard</h1>
+  <table border=2 align="center" cellpadding="10">
+    <tr border=2>
+      <th>Rank</th>
+      <th>Username</th>
+      {% for p in problems %}
+        <th>{{ p.letter }}</th>
+      {% endfor %}
+      <th>Total</th>
+      <th>Last Submitted</th>
+    </tr>
+    {% for e in entries %}
+      <tr border=2>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ e.member.user.username }}</td>
+        {% for ps in e.problem_scores.all %}
+          <td>{{ ps.points }}</td>
+        {% endfor %}
+        <td>{{ e.total_score }}</td>
+        <td>{{ e.last_submit }}</td>
+      </tr>
     {% endfor %}
-    <td>Total</td>
-    <td>Last Submitted</td>
-  </tr>
-  {% for e in entries %}
-  <tr>
-    <td>{{ forloop.counter }}</td>
-    <td>{{ e.member.user.username }}</td>
-    {% for ps in e.problem_scores.all %}
-    <td>{{ ps.points }}</td>
-    {% endfor %}
-    <td>{{ e.total_score }}</td>
-    <td>{{ e.last_submit }}</td>
-  </tr>
-  {% endfor %}
- </table>
+  </table>
+</div>

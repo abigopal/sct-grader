@@ -15,6 +15,6 @@ urlpatterns = patterns('',
     url(r'^contest/(?P<contest>[\w-]+)/scoreboard/$', views.ScoreboardView.as_view(), name='scoreboard'),
     url(r'^contest/(?P<contest>[\w-]+)/submit/$', views.SubmitView.as_view(), name='submit'),
     url(r'^contest/(?P<contest>[\w-]+)/problem/(?P<problem>[\w-]+)/$', views.ProblemView.as_view(), name='problem'),
-
-    (r'^resources/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT }),
+#    url(r'^contest/(?P<contest>[\w-]+)/grade/$', views.GraderView.as_view(), name='grade'),
+    url(r'^change-password/$', views.ChangePasswordView.as_view(), name='change-password'),
 )

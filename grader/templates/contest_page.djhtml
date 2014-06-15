@@ -12,12 +12,20 @@
     </ul>
     <div class="tab-content">
       <div class="tab-pane active" id="contest">
-        {{ contest_text | safe }}
+        <div class="problem">
+          <div id="container">
+            {{ contest_text | safe }}
+          </div>
+        </div>
       </div>
       {% for p in problems %}
-      <div class="tab-pane" id="{{ p.0 }}">
-        {{ p.1 | safe }}
-      </div>        
+        <div class="tab-pane" id="{{ p.0 }}">
+          <div class="problem">
+            <div id="container">
+              {{ p.1 | safe }}
+            </div>
+          </div>
+        </div>        
       {% endfor %}
       <div class="tab-pane" id="submit">
       </div>

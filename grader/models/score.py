@@ -30,9 +30,9 @@ class ProblemScore(models.Model):
 
 class SubtaskScore(models.Model): 
     num = models.IntegerField(default=0)
-    points = models.IntegerField(default=0)
     complete = models.BooleanField(default=False)
     problem_score = models.ForeignKey(ProblemScore, related_name='subtask_scores')
+    last_submit = models.DateTimeField(auto_now=True)
 
     @python_2_unicode_compatible
     def __str__(self):

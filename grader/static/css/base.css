@@ -1,9 +1,7 @@
 body {
     padding: 1em;
 }
-.contest-gateway {
-
-}
+.contest-gateway {}
 
 .contest-gateway p, h3 {
     margin-botton: 0em;
@@ -22,9 +20,7 @@ body {
     margin-right: 1em;
 }
 
-.login {
-    width: 100%;
-} 
+.login {}
 
 .login form {
     margin: 0 auto;
@@ -39,17 +35,13 @@ body {
     vertical-align: center;
 }
 
-.login label {
-
-}
+.login label {}
 .login #register {
     margin: auto;
     width: 20em;
 }
 
-.register {
-
-}
+.register {}
 
 .register form {
     margin: auto;
@@ -68,4 +60,54 @@ body {
     margin: auto;
     width: 20em;
     margin-bottom: 4em;
+}
+
+.problem {}
+
+.problem #container {
+    margin: 0 auto;
+    padding: 2.5em;
+    padding-top: 1.5em;
+    width: 75%;
+}
+
+.problem h1 {
+    font-size: 2em;
+}
+.problem h2 {
+    font-size: 1.5em;
+}
+
+.scoreboard {}
+
+.scoreboard #container {
+    /* margin: 0 auto; */
+    /* padding: 2.5em; */
+    /* width: 70%; */
+}
+
+.scoreboard h1{
+    padding-top: 1em;
+    text-align: center;
+    font-size: 2em;
+}
+.submit {}
+
+.submit form {
+    margin: 0 auto;
+    width: 20em;
+    height: 100%;
+    margin-bottom: 3em;
+}
+
+.submit h1 {
+    padding-top: 1.0em;
+    text-align: center;
+    font-size: 2.25em;
+}
+.submit #warning {
+    width: 15.7em;
+    height: 1em;
+    margin-bottom: 2em;
+    vertical-align: center;
 }

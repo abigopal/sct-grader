@@ -80,3 +80,9 @@ class RegistrationForm(forms.Form):
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=30)
     password = forms.CharField(max_length=30, widget=forms.PasswordInput())
+
+class ChangePasswordForm(forms.Form):
+    current_password = forms.CharField(max_length=30, widget=forms.PasswordInput())
+    new_password = forms.CharField(max_length=30, widget=forms.PasswordInput())
+    confirm_new_password = forms.CharField(max_length=30, widget=forms.PasswordInput())
+

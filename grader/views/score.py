@@ -9,7 +9,7 @@ from django.views.generic.base import View
 from grader.models import Contest, Problem, Entry, ProblemScore, SubtaskScore
 
 def sort_by_score(a, b):
-    diff = a.total_score - b.total_score
+    diff = b.total_score - a.total_score
     if diff == 0:
         if a.last_submit < b.last_submit:
             return -1
@@ -17,7 +17,7 @@ def sort_by_score(a, b):
             return 1
         else:
             return 0
-    return diff
+    return int(diff)
         
 class ScoreboardView(View):
     template = '../templates/scoreboard.djhtml'

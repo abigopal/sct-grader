@@ -6,13 +6,18 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.utils.timezone import now
 from django.views.generic.base import View
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+from django.conf import settings
 
 from grader.models import Contest, Problem, Entry, ProblemScore, SubtaskScore
 from grader.forms import SubmitForm
-
+from grader.problem_grader import grade_problem
 from markdown import markdownFromFile
 
 from StringIO import StringIO
+
+import os
 
 def entry_exists(user, contest):
     qs = Entry.objects.filter(contest=contest, member=user)
@@ -109,23 +114,63 @@ class ProblemView(View):
 
 class SubmitView(View):
     template = '../templates/submit_page.djhtml'
-    
+    form = SubmitForm
     @method_decorator(login_required)
     def get(self, request, *args, **kwargs):
         contest_slug = kwargs['contest']
         contest = get_object_or_404(Contest, active=True, start__lte=now(), end__gte=now(), slug=contest_slug)
         user = request.user.member
+        if not entry_exists(user, contest):
+            HttpRedirect('/contest-gateway')
         first_name = request.user.first_name
         choices = []
         for p in contest.problems.all():
             letter = p.letter
             name = p.title
-            tup = (letter, letter + ': ' + name)
+            tup = (letter, letter + ': ' + name) 
             choices.append(tup)
         if not entry_exists(user, contest):
             HttpRedirect('/contest-gateway')
-        form = SubmitForm()
+        form = self.form()
+        print choices
         form.fields['problem'].choices = choices
         form.fields['problem'].initial = choices[0][0] # A contest by definition has at least 1 problem 
         return render(request, self.template, {'form':form,
+                                               'contest':contest,
                                                'first_name':first_name})
+
+    def post(self, request, *args, **kwargs):
+        contest_slug = kwargs['contest']
+        contest = get_object_or_404(Contest, active=True, start__lte=now(), end__gte=now(), slug=contest_slug)
+        user = request.user.member
+        if not entry_exists(user, contest):
+            HttpRedirect('/contest-gateway')
+        first_name = request.user.first_name
+        choices = []
+        for p in contest.problems.all():
+            letter = p.letter
+            name = p.title
+            tup = (letter, letter + ': ' + name) 
+            choices.append(tup)
+        form = self.form(request.POST, request.FILES)
+        form.fields['problem'].choices = choices # Validate the choices!
+
+        if form.is_valid():
+            upload = form.cleaned_data['upload']
+            lang = form.cleaned_data['lang']
+            problem = form.cleaned_data['problem']
+            
+            path = os.path.join(settings.MEDIA_ROOT, 'jail', upload.name)
+            ofile = open(path, 'w')
+            
+            if not upload.multiple_chunks():
+                ofile.write(upload.read())
+            else:
+                for chunk in upload.chunks():
+                    ofile.write(chunk)
+            ofile.close()
+            
+            grade_problem(path)
+        else:
+            print form.errors # render form
+        

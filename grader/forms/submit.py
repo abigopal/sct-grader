@@ -6,7 +6,7 @@ class SubmitForm(forms.Form):
         ('C++11', 'C++ 11'),
         ('C++03', 'C++ 03'),
         ('C', 'C'),
-        ('Python', 'Python'),
+        ('python', 'Python'),
     )
     lang = forms.ChoiceField(choices=programming_languages)
     problem = forms.ChoiceField(choices=[])

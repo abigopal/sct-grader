@@ -12,6 +12,8 @@ class Problem(models.Model):
     points = models.IntegerField()
     evaluator = models.CharField(max_length=30)
     flags = models.CharField(max_length=30)
+    memory_limit = models.IntegerField()
+    time_limit = models.IntegerField()
 
     @python_2_unicode_compatible
     def __str__(self):
@@ -35,6 +37,7 @@ class TestCase(models.Model):
 
     class Meta:
         app_label = 'grader'
+        ordering = ('num',)
 
 class Subtask(models.Model):
     num = models.IntegerField(default=0)
